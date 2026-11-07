@@ -30,6 +30,8 @@ def leer_datos(ruta: Path = RUTA_DATOS_CRUDOS) -> pd.DataFrame:
 # Función que recibe la tabla; "-> None" indica que no devuelve nada: o pasa en silencio o lanza una excepción
 def validar_datos(tabla: pd.DataFrame) -> None:
     """Comprueba el esquema de la tabla y lanza una excepción si alguna comprobación falla."""
+    
+    # Se usa "if ... raise" y no "assert" porque Python ignora los assert al ejecutar con "python -O"
 
     # 1) Se comprueba que la tabla tiene al menos una fila
     if len(tabla) == 0:
@@ -59,7 +61,8 @@ def validar_datos(tabla: pd.DataFrame) -> None:
     # 5) Se cuentan los valores nulos de toda la tabla (primero por columna y luego en total)
     total_nulos = int(tabla.isna().sum().sum())
 
-    # Se detiene la validación si hay algún valor nulo
+    # Se detiene la validación si hay algún valor nulo; validar es avisar y parar, no corregir
+    # (el tratamiento de nulos corresponde a data_cleaning.py, como red de seguridad)
     if total_nulos > 0:
         raise ValueError(f"Hay {total_nulos} valores nulos en los datos.")
 
