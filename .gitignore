@@ -1,0 +1,19 @@
+# Archivos y carpetas que git debe ignorar: no se guardan en el historial ni se suben a GitHub
+
+# Entorno virtual
+.venv/
+
+# Caché de Python
+__pycache__/
+*.pyc
+
+# Checkpoints del notebook
+.ipynb_checkpoints/
+
+# MLflow (se regenera al ejecutar el pipeline)
+mlruns/
+mlartifacts/
+mlflow.db
+
+# Datos (los genera el pipeline)
+data/
