@@ -13,12 +13,12 @@ jobs:
     steps:
       # Se descarga el código del repositorio en la máquina
       - name: Descargar el código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Se instala la misma versión de Python que en local, guardando en caché
       # las librerías descargadas para que las siguientes ejecuciones sean más rápidas
       - name: Instalar Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
