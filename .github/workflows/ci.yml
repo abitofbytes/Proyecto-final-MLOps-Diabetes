@@ -1,0 +1,33 @@
+# Flujo de integración continua: ejecuta el pipeline completo en cada push
+name: CI - Pipeline MLOps
+
+# Se ejecuta automáticamente cada vez que se hace push a main o master
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  pipeline:
+    # Máquina Linux limpia que GitHub crea para cada ejecución y destruye al terminar
+    runs-on: ubuntu-latest
+    steps:
+      # Se descarga el código del repositorio en la máquina
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      # Se instala la misma versión de Python que en local, guardando en caché
+      # las librerías descargadas para que las siguientes ejecuciones sean más rápidas
+      - name: Instalar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      # Se instalan las versiones exactas de requirements.txt
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      # Se ejecuta el orquestador, que encadena los 6 pasos en orden
+      # y termina con código 1 si alguno falla, lo que marca el CI en rojo
+      - name: Ejecutar el pipeline
+        run: python src/pipeline/run_pipeline.py
